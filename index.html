@@ -682,20 +682,9 @@ const APPS = {
       <div class="cover"><b>On<br>Repeat</b></div>
       <div class="pltitle">On Repeat</div>
       <div class="plmeta"><span class="av"></span><b>Derek Wang</b></div>
-      <div class="plmeta">${PLAYLIST_COUNT||SONGS.length} songs</div>
       <a class="openbtn" href="${PLAYLIST_URL}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Open in Spotify</a>
-      <div class="plctl">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 7v10M7 12h10"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>
-        <span style="font-size:20px;letter-spacing:2px">···</span>
-        <span class="sp"></span>
-        <svg id="plShuf" style="cursor:pointer;transition:color .15s" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 17h3l9-10h6M3 7h3l3 3.3M14 14l1 1h6M18 4l3 3-3 3M18 14l3 3-3 3"/></svg>
-        <button class="playbtn" id="plPlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000" id="plIcon"><path d="M7 4v16l13-8z"/></svg></button>
-      </div>
     </div>
-    <div class="tracks">${SONGS.map((x,i)=>`<div class="trk" data-trk="${i}"><div class="art" style="background:${ART[i%ART.length]}"></div><div class="t"><div class="nm">${x.title}</div><div class="ar">${x.artist}</div></div><span class="dots">···</span></div>`).join('')}</div>
-    <div class="spx" id="spx"><div id="spEmbed"></div></div><div class="mini" id="mini" style="display:none!important"><div class="art" id="miniArt"></div><div class="t"><div id="miniT"></div><div id="miniA"></div></div>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" id="miniBtn" style="cursor:pointer"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><div class="bar"><i id="miniBar"></i></div></div>`},
+    <div style="padding:8px 12px calc(30px + var(--safe-b))"><iframe src="https://open.spotify.com/embed/playlist/${PLAYLIST_URL.split('/playlist/')[1]}?utm_source=generator&theme=0" style="width:100%;height:560px;border:0;border-radius:12px;display:block" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`},
   tv:{name:'TV', bg:'linear-gradient(180deg,#2b2b2e,#0d0d0f)', icon:ICON.tv, title:'Home', cls:'tvs', html:()=>`
     <div class="tvsec" style="margin-bottom:8px"><h2 style="font-size:26px">Favorites</h2></div>
     <div class="tvsec"><h2>Shows <span>›</span></h2><div class="rwrap"><button class="rarr l off" aria-label="Scroll left">‹</button><button class="rarr r" aria-label="Scroll right">›</button><div class="rail">
@@ -901,28 +890,6 @@ function wire(k){
   if(k==='spotify'){
     const hd=sheet.querySelector('header');hd.insertAdjacentHTML('beforeend','<span class="htitle">On Repeat</span>');
     sbody.onscroll=()=>hd.classList.toggle('solid',sbody.scrollTop>300);
-    let idx=-1,shuf=false;const shBtn=document.getElementById('plShuf'),spx=document.getElementById('spx');
-    document.querySelector('.tracks').style.paddingBottom='190px';
-    const pick=()=>{let n;do{n=Math.floor(Math.random()*SONGS.length)}while(n===idx&&SONGS.length>1);return n};
-    const mark=()=>sbody.querySelectorAll('.trk').forEach((t,i)=>t.classList.toggle('on',i===idx));
-    let ctrl=null,queue=[];
-    const ensure=cb=>{
-      if(ctrl){cb(ctrl);return}queue.push(cb);if(queue.length>1)return;
-      const go=api=>api.createController(document.getElementById('spEmbed'),{uri:'spotify:track:'+SONGS[0].id,width:'100%',height:152},c=>{ctrl=c;queue.forEach(f=>f(c));queue=[]});
-      if(window.SPAPI){go(window.SPAPI);return}
-      window.onSpotifyIframeApiReady=api=>{window.SPAPI=api;go(api)};
-      const sc=document.createElement('script');sc.src='https://open.spotify.com/embed/iframe-api/v1';sc.async=true;
-      sc.onerror=()=>{queue=[];document.getElementById('spEmbed').innerHTML=`<a href="${PLAYLIST_URL}" style="display:block;padding:20px;color:#fff;text-align:center">Open in Spotify ↗</a>`};
-      document.body.appendChild(sc);
-    };
-    const play=i=>{idx=i;mark();spx.classList.add('show');
-      if(!ctrl)document.getElementById('spEmbed').innerHTML='<div style="height:152px;display:flex;align-items:center;justify-content:center;color:#b3b3b3;font-size:14px">Loading player…</div>';
-      ensure(c=>{c.loadUri('spotify:track:'+SONGS[i].id);c.play()});
-      const el=sbody.querySelector(`[data-trk="${i}"]`);el&&el.scrollIntoView({block:'nearest'})};
-    shBtn.onclick=()=>{shuf=!shuf;shBtn.style.color=shuf?'#1ed760':''};
-    sbody.querySelectorAll('.trk').forEach(t=>t.onclick=()=>play(+t.dataset.trk));
-    document.getElementById('plPlay').onclick=()=>play(shuf?pick():(idx<0?0:idx));
-    APPS.spotify.stop=()=>{try{ctrl&&ctrl.destroy&&ctrl.destroy()}catch(e){};ctrl=null;queue=[]};
     APPS.spotify.cleanup=()=>{sbody.onscroll=null;hd.classList.remove('solid');const t=hd.querySelector('.htitle');if(t)t.remove()};
   }
   if(k==='youtube'){
