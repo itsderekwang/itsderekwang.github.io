@@ -437,8 +437,9 @@ const RESUME = {name:'Derek Wang', tagline:'Supply Chain Project Manager',
   ],
   edu:{school:'Rutgers Business School', degree:'B.S. Finance', dates:'2019 – 2023', loc:'NJ'},
   skills:['Power BI','SAP','Kinaxis','Excel','Power Automate','Supply Chain','Logistics']};
-const EMAIL = "derekwang08902@gmail.com"; // shown on resume
-const MAIL_TO = "derekwang08902@gmail.com"; // where the Mail app sends
+// Mail: with a Web3Forms access key, messages send through a form and the address never appears in the page.
+const WEB3_KEY = '';
+const MAIL_TO = (()=>{try{return atob('bW9jLmxpYW1nQDIwOTgwZ25hd2tlcmVk').split('').reverse().join('')}catch(e){return ''}})();
 // Blog (Notes style): newest first. body = paragraphs separated by blank lines
 const POSTS = [
   {title:'Building this out', date:'2026-11-15', body:"Not really sure what I’m doing here. bored and building with claude. I’m not active on socials, but I still wanted somewhere to keep everything. WIP as well"},
@@ -835,10 +836,11 @@ const APPS = {
       <div class="card">
         <div class="row">To:<span class="v" style="flex:1;text-align:left;color:var(--blue)">Derek Wang</span></div>
         <div class="row">From:<input id="mFrom" placeholder="Your name"></div>
+        <div class="row">Reply to:<input id="mReply" type="email" placeholder="Your email (optional)"></div>
         <div class="row">Subject:<input id="mSub" placeholder="Hi Derek"></div>
         <textarea id="mBody" placeholder="Write a message…"></textarea>
       </div>
-      <a class="btn" id="mSend" href="mailto:${MAIL_TO}">Send</a>
+      <a class="btn" id="mSend" href="#">Send</a><p class="note" id="mStatus" style="min-height:18px"></p>
       <p class="note">Send opens your email app with this message filled in.</p>
     </div>`},
   files:{name:'Resume', bg:'linear-gradient(180deg,#ffffff,#eef0f4)', icon:ICON.files, title:'Resume', cls:'rs', html:()=>{const r=RESUME;
@@ -991,8 +993,15 @@ function wire(k){
   }
   if(k==='mail'){
     const f=document.getElementById('mFrom'),s=document.getElementById('mSub'),b=document.getElementById('mBody'),a=document.getElementById('mSend');
-    const upd=()=>{const body=b.value+(f.value?`\n\n— ${f.value}`:'');a.href=`mailto:${MAIL_TO}?subject=${encodeURIComponent(s.value||'Hi Derek')}&body=${encodeURIComponent(body)}`};
-    [f,s,b].forEach(x=>x.oninput=upd);upd();
+    const rp=document.getElementById('mReply'),st=document.getElementById('mStatus');
+    const upd=()=>{if(WEB3_KEY){a.removeAttribute('href');return}const body=b.value+(f.value?`\n\n— ${f.value}`:'');a.href=`mailto:${MAIL_TO}?subject=${encodeURIComponent(s.value||'Hi Derek')}&body=${encodeURIComponent(body)}`};
+    a.onclick=async e=>{if(!WEB3_KEY)return;e.preventDefault();if(!b.value.trim()){st.textContent='Write a message first.';return}
+      a.style.opacity=.6;st.textContent='Sending…';
+      try{const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({access_key:WEB3_KEY,subject:s.value||'Hi Derek (from your site)',from_name:f.value||'Site visitor',name:f.value||'Site visitor',email:rp.value||undefined,message:b.value})});
+        const d=await r.json();if(d.success){st.textContent='Sent ✓';b.value='';s.value=''}else st.textContent='Couldn\'t send. Try again later.'}
+      catch(err){st.textContent='Couldn\'t send. Try again later.'}a.style.opacity=1};
+    [f,s,b,rp].forEach(x=>x.oninput=upd);upd();
   }
 }
 
