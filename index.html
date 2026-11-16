@@ -859,7 +859,7 @@ const APPS = {
     <p class="note">Updated ${new Date(WX.updated+'T12:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</p>`}
 };
 
-const HOME=['spotify','tv','about','blog','settings','flighty','youtube','beli'];
+const HOME=['settings','about','blog','flighty','spotify','youtube','tv','beli'];
 const DOCK=['photos','mail','files'];
 
 const appHTML=k=>{const a=APPS[k];return `<div class="app" data-open="${k}"><div class="icon" style="background:${a.bg}"><svg viewBox="0 0 64 64">${a.icon}</svg></div><div class="alabel">${a.name}</div></div>`};
