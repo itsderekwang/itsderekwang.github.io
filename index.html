@@ -438,7 +438,7 @@ const RESUME = {name:'Derek Wang', tagline:'Supply Chain Project Manager',
   edu:{school:'Rutgers Business School', degree:'B.S. Finance', dates:'2019 – 2023', loc:'NJ'},
   skills:['Power BI','SAP','Kinaxis','Excel','Power Automate','Supply Chain','Logistics']};
 // Mail: with a Web3Forms access key, messages send through a form and the address never appears in the page.
-const WEB3_KEY = '';
+const WEB3_KEY = 'f8809003-8d52-48ef-b031-01218bcd5a51';
 const MAIL_TO = (()=>{try{return atob('bW9jLmxpYW1nQDIwOTgwZ25hd2tlcmVk').split('').reverse().join('')}catch(e){return ''}})();
 // Blog (Notes style): newest first. body = paragraphs separated by blank lines
 const POSTS = [
@@ -841,7 +841,7 @@ const APPS = {
         <textarea id="mBody" placeholder="Write a message…"></textarea>
       </div>
       <a class="btn" id="mSend" href="#">Send</a><p class="note" id="mStatus" style="min-height:18px"></p>
-      <p class="note">Send opens your email app with this message filled in.</p>
+      <p class="note">Your message goes straight to Derek.</p>
     </div>`},
   files:{name:'Resume', bg:'linear-gradient(180deg,#ffffff,#eef0f4)', icon:ICON.files, title:'Resume', cls:'rs', html:()=>{const r=RESUME;
     const job=j=>`<div class="rjob"><div class="rbadge" style="background:${j.badge[1]}">${j.badge[0]}</div><div><div class="co">${j.co}</div><div class="ro">${j.role}</div><div class="dt">${j.dates} · ${j.loc}</div>${j.desc?`<p>${j.desc}</p>`:''}</div></div>`;
