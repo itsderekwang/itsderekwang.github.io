@@ -296,6 +296,10 @@ const WX = {"place":"New Jersey","temp":52,"cond":"Partly Sunny","icon":"partly"
   .ytnav div{display:flex;flex-direction:column;align-items:center;gap:3px;opacity:.9}
 
   /* restaurant profile */
+  .wipwrap{position:relative}
+  .wipwrap .wipblur{filter:blur(7px);pointer-events:none;user-select:none;opacity:.8}
+  .wipnote{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:150px;z-index:2}
+  .wipnote div{background:var(--card);border-radius:16px;padding:16px 26px;font-size:20px;font-weight:700;box-shadow:0 8px 30px rgba(0,0,0,.35)}
   .bp{text-align:center;padding:0 0 6px}
   .bp .av{width:84px;height:84px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(180deg,#a8acb3,#7d828a);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
   .bp .nm{font-size:22px;font-weight:700}
@@ -810,12 +814,12 @@ const APPS = {
       <div><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(180deg,#a8acb3,#7d828a)"></span>You</div>
     </div>`}},
   beli:{name:'Beli', bg:'linear-gradient(180deg,#2ec4b6,#0f8b80)', icon:ICON.fork, title:'', html:()=>{const v=x=>x==null?'—':x.toLocaleString();
-    return `<div class="bp"><div class="av"><svg viewBox="0 0 96 96" width="84" height="84"><circle cx="48" cy="38" r="17" fill="#fff"/><path d="M14 96c4-20 18-28 34-28s30 8 34 28z" fill="#fff"/></svg></div>
+    return `<div class="wipwrap"><div class="wipnote"><div>WIP 🚧</div></div><div class="wipblur"><div class="bp"><div class="av"><svg viewBox="0 0 96 96" width="84" height="84"><circle cx="48" cy="38" r="17" fill="#fff"/><path d="M14 96c4-20 18-28 34-28s30 8 34 28z" fill="#fff"/></svg></div>
       <div class="nm">Derek Wang</div><div class="hd">@derekwang</div></div>
     <div class="bstats"><div><b>${v(BELI.been)}</b><span>Been</span></div><div><b>${v(BELI.want)}</b><span>Want to Try</span></div></div>
     <a class="bbtn" href="https://beliapp.co/profile/derekwang">Follow on Beli</a>
     <div class="btabs"><div class="btab on" data-btab="been">Been</div><div class="btab" data-btab="want">Want to Try</div></div>
-    <div id="blist"></div>`}},
+    <div id="blist"></div></div></div>`}},
   photos:{name:'Photos', bg:'linear-gradient(180deg,#ffffff,#eef0f4)', icon:ICON.photos, title:'Library', cls:'ph', html:()=>{
     const n=PHOTOS.length||12;
     const dates=PHOTOS.map(p=>p.date).filter(Boolean).sort();
