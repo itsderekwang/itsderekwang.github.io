@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Derek Wang</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 <script id="wx">
 /* WEATHER — updated daily */
 /* ACTIVITY — 49 days from start (Mon), one char per day: 0 rest, r run, g gym, b both. Updated daily from Strava */
@@ -211,6 +211,14 @@ const WX = {"place":"New Jersey","temp":52,"cond":"Partly Sunny","icon":"partly"
   .tcard .pic{border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:12px;
     box-shadow:0 4px 14px rgba(0,0,0,.5)}
   .tcard .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 40%,rgba(0,0,0,.45))}
+  .tcard .pic .tag{position:absolute;top:9px;left:9px;z-index:1;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 7px;border-radius:5px;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff}
+  .tcard .pic b{overflow-wrap:anywhere}
+  .tcard .pic.long b{font-size:21px}
+  .tcard .pic.f-bebas b{font-family:'Bebas Neue','Arial Narrow',Inter,sans-serif;font-weight:400;font-size:27px;letter-spacing:.02em;line-height:.95}
+  .tcard .pic.f-serif b{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:20px}
+  .tcard .pic.f-mono b{font-family:'Space Mono',monospace;font-size:15px;letter-spacing:-.02em;text-transform:uppercase}
+  .tcard .pic.f-heavy b{font-weight:900;font-size:19px;letter-spacing:-.03em;text-transform:uppercase}
   .tcard .pic b{position:relative;z-index:1;font-size:19px;font-weight:800;line-height:1.05;text-shadow:0 2px 8px rgba(0,0,0,.4)}
   .wide{width:270px}.wide .pic{height:152px}
   .tall{width:130px}.tall .pic{height:195px}.tall .pic b{font-size:16px}
@@ -560,6 +568,38 @@ const FAV_MOVIES = [
   {title:'Uncut Gems', sub:'2019', imdb:'https://www.imdb.com/find/?q=Uncut%20Gems%202019'}
 ];
 const TVART=['linear-gradient(135deg,#1f3b73,#0b1430)','linear-gradient(135deg,#7a1f2b,#2a0a10)','linear-gradient(135deg,#2f5e55,#0d211d)','linear-gradient(135deg,#6b4f3a,#1e1610)','linear-gradient(135deg,#4b2a7a,#140b26)','linear-gradient(135deg,#8a6d1f,#2b220a)'];
+// Card styles per title: [color1,color2,pattern,font,genre]
+const P={
+  stripes:c=>`repeating-linear-gradient(135deg,${c}22 0 10px,transparent 10px 22px)`,
+  grid:c=>`linear-gradient(${c}26 1px,transparent 1px) 0 0/18px 18px,linear-gradient(90deg,${c}26 1px,transparent 1px) 0 0/18px 18px`,
+  dots:c=>`radial-gradient(${c}40 1.5px,transparent 1.6px) 0 0/12px 12px`,
+  rings:c=>`repeating-radial-gradient(circle at 80% 15%,${c}2a 0 2px,transparent 2px 16px)`,
+  scan:c=>`repeating-linear-gradient(0deg,${c}1f 0 1px,transparent 1px 4px)`,
+  glow:c=>`radial-gradient(circle at 75% 20%,${c}66,transparent 55%)`,
+  bars:c=>`repeating-linear-gradient(90deg,${c}24 0 6px,transparent 6px 26px)`,
+  sun:c=>`radial-gradient(circle at 50% 110%,${c}99 0 30%,transparent 31%)`
+};
+const TVS={
+  'Beef':['#e2552b','#3a0d0a','stripes','bebas','Comedy · Drama'],
+  'Tires':['#f2b632','#2b2b2b','bars','heavy','Comedy'],
+  'Bloodhounds':['#8e0f1a','#0a0a0a','scan','bebas','Action'],
+  'Severance':['#1f6f78','#0c1c22','grid','mono','Thriller'],
+  'Black Mirror':['#5b6b7a','#07090c','scan','mono','Sci-Fi'],
+  'The Brothers Sun':['#d4a017','#1a1206','rings','bebas','Action · Comedy'],
+  'If Wishes Could Kill':['#7b3fb0','#14081f','glow','serif','Thriller'],
+  'Untold':['#1d3a6e','#0a1020','bars','heavy','Sports Doc'],
+  'Pluribus':['#3fae6a','#081a10','dots','mono','Sci-Fi'],
+  'Superbad':['#ff8a00','#c23a00','dots','heavy','Comedy'],
+  'Parasite':['#6f7a3a','#151809','stripes','serif','Thriller'],
+  'Rush Hour':['#c8102e','#2a0508','bars','bebas','Action · Comedy'],
+  'Despicable Me':['#7c4dff','#1b0d3d','dots','heavy','Animation'],
+  'Project Hail Mary':['#f5a623','#050b1e','sun','bebas','Sci-Fi'],
+  'Sinners':['#7a0c0c','#0b0303','glow','serif','Horror'],
+  'Uncut Gems':['#2fc4b2','#1c0b2b','rings','serif','Thriller']
+};
+const tvPic=(x,i,off)=>{const t=TVS[x.title];if(!t)return `class="pic" style="background:${TVART[(i+off)%TVART.length]}"`;
+  const lg=x.title.split(' ').some(w=>w.length>8)?' long':'';return `class="pic f-${t[3]}${lg}" style="background:${P[t[2]](t[0])},linear-gradient(160deg,${t[0]} 0%,${t[1]} 75%)"`};
+const tvTag=x=>TVS[x.title]?`<span class="tag">${TVS[x.title][4]}</span>`:'';
 const imdb=x=>x.imdb||('https://www.imdb.com/find/?q='+encodeURIComponent(x.title));
 // Beli profile — update from screenshots of the Beli app. score 0–10
 const BELI = {been:null, want:null,
@@ -688,10 +728,10 @@ const APPS = {
   tv:{name:'TV', bg:'linear-gradient(180deg,#2b2b2e,#0d0d0f)', icon:ICON.tv, title:'Home', cls:'tvs', html:()=>`
     <div class="tvsec" style="margin-bottom:8px"><h2 style="font-size:26px">Favorites</h2></div>
     <div class="tvsec"><h2>Shows <span>›</span></h2><div class="rwrap"><button class="rarr l off" aria-label="Scroll left">‹</button><button class="rarr r" aria-label="Scroll right">›</button><div class="rail">
-      ${FAV_SHOWS.map((x,i)=>`<a class="tcard tall" href="${imdb(x)}"><div class="pic" style="background:${TVART[(i+2)%TVART.length]}"><b>${x.title}</b></div><div class="lbl">${x.title}</div><div class="sub">${x.sub||''}</div></a>`).join('')}
+      ${FAV_SHOWS.map((x,i)=>`<a class="tcard tall" href="${imdb(x)}"><div ${tvPic(x,i,2)}>${tvTag(x)}<b>${x.title}</b></div><div class="lbl">${x.title}</div><div class="sub">${x.sub||''}</div></a>`).join('')}
     </div></div></div>
     <div class="tvsec"><h2>Movies <span>›</span></h2><div class="rwrap"><button class="rarr l off" aria-label="Scroll left">‹</button><button class="rarr r" aria-label="Scroll right">›</button><div class="rail">
-      ${FAV_MOVIES.map((x,i)=>`<a class="tcard tall" href="${imdb(x)}"><div class="pic" style="background:${TVART[(i+4)%TVART.length]}"><b>${x.title}</b></div><div class="lbl">${x.title}</div><div class="sub">${x.sub||''}</div></a>`).join('')}
+      ${FAV_MOVIES.map((x,i)=>`<a class="tcard tall" href="${imdb(x)}"><div ${tvPic(x,i,4)}>${tvTag(x)}<b>${x.title}</b></div><div class="lbl">${x.title}</div><div class="sub">${x.sub||''}</div></a>`).join('')}
     </div></div></div>`},
   about:{name:'About', bg:'linear-gradient(180deg,#f2f2f4,#cfd0d4)', icon:ICON.about, title:'', html:()=>`
     <div class="center" style="margin-bottom:16px">
