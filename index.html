@@ -178,6 +178,8 @@ const WX = {"place":"New Jersey","temp":52,"cond":"Partly Sunny","icon":"partly"
   .trk .ar{font-size:13px;color:#b3b3b3;margin-top:2px}
   .trk.on .nm{color:#1ed760}
   .trk .dots{color:#b3b3b3;font-size:18px;letter-spacing:1px}
+  .spx{position:absolute;left:8px;right:8px;bottom:calc(36px + var(--safe-b));z-index:4;border-radius:12px;overflow:hidden;display:none;box-shadow:0 6px 20px rgba(0,0,0,.5);background:#282828}
+  .spx.show{display:block}
   .mini{position:absolute;left:8px;right:8px;bottom:calc(36px + var(--safe-b));z-index:4;background:#4a3a2e;border-radius:8px;
     padding:8px;display:none;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
   .mini.show{display:flex}
@@ -469,6 +471,7 @@ const TH={
 };
 const thumbSVG=(tag,i)=>{const k=(tag||'').toLowerCase();const t=TH[k]||TH[{gym:'fitness',lifting:'fitness',workout:'fitness',run:'running',marathon:'running',cooking:'food',recipes:'food',coding:'tech',ai:'tech',money:'finance',investing:'finance',business:'finance',podcasts:'podcast',learning:'education',funny:'comedy',basketball:'sports',nba:'sports'}[k]]||TH.default;
   return `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs><linearGradient id="tg${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${t[0]}"/><stop offset="1" stop-color="${t[1]}"/></linearGradient></defs><rect width="320" height="180" fill="url(#tg${i})"/>${t[2]}</svg>`};
+const ytid=u=>{const m=u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);return m?m[1]:''};
 const VART=['linear-gradient(135deg,#ff5f6d,#7a1f2b)','linear-gradient(135deg,#36d1dc,#1b3a6b)','linear-gradient(135deg,#f7b733,#8a3b12)','linear-gradient(135deg,#8e2de2,#2b1066)','linear-gradient(135deg,#43e97b,#0f5e3a)'];
 // Flighty passport — fill in from Flighty. routes: [[lon,lat,lon,lat],...]
 // Round trips (both legs counted); flight time = fastest nonstop time per route (approx), both legs:
@@ -579,73 +582,73 @@ const PLAYLIST_URL = 'https://open.spotify.com/playlist/3ET2JCewL0Zu3c224rIxeK';
 const PLAYLIST_COUNT = 67;
 // Spotify playlist: {title, artist}
 const SONGS = [
-  {title:'Lo Life', artist:'Venna, Odeal'},
-  {title:'Ordinary Feelings', artist:'Mack Keane'},
-  {title:'maple brown', artist:'Jahson Paynter'},
-  {title:'Rock Your Body', artist:'Justin Timberlake'},
-  {title:'Tried Our Best', artist:'Drake'},
-  {title:'More Than A Woman - From &quot;Saturday Night Fever&quot; Soundtrack', artist:'Bee Gees'},
-  {title:'CATCH A STRAY', artist:'Leon Thomas'},
-  {title:'MUTT (feat. Chris Brown) [CB REMIX]', artist:'Leon Thomas, Chris Brown'},
-  {title:'Material Lover - from The Devil Wears Prada 2 Original Motion Picture', artist:'SIENNA SPIRO'},
-  {title:'Trip Freestyle', artist:'Jok’1 Le Chef'},
-  {title:'Hell N Back (feat. Summer Walker)', artist:'Bakar, Summer Walker'},
-  {title:'It Ain\'t Over \'Til It\'s Over', artist:'Lenny Kravitz'},
-  {title:'Call On Me', artist:'Daniel Caesar'},
-  {title:'Choosin\' Texas', artist:'Ella Langley'},
-  {title:'The Reason', artist:'Hoobastank'},
-  {title:'I\'m Spent (feat. Loe Shimmy)', artist:'Drake, Loe Shimmy'},
-  {title:'everything about her', artist:'Amie Blu'},
-  {title:'trees for the woods', artist:'Amie Blu'},
-  {title:'DIE TRYING', artist:'PARTYNEXTDOOR, Drake, Yebba'},
-  {title:'Deep Blue Blues', artist:'R3ALSON릴슨'},
-  {title:'A Couple Minutes', artist:'Olivia Dean'},
-  {title:'Reason To Stay', artist:'Olivia Dean'},
-  {title:'Easy', artist:'Commodores'},
-  {title:'Life Feels So Good', artist:'napsea'},
-  {title:'Let\'s Go Back', artist:'Jungle'},
-  {title:'Make Them Pay', artist:'Drake'},
-  {title:'Nice To Each Other', artist:'Olivia Dean'},
-  {title:'Mad At Fire', artist:'Elmiene'},
-  {title:'Billie Bossa Nova', artist:'Billie Eilish'},
-  {title:'Who Knows', artist:'Daniel Caesar'},
-  {title:'Superpowers', artist:'Daniel Caesar'},
-  {title:'Always', artist:'Daniel Caesar'},
-  {title:'Japanese Denim', artist:'Daniel Caesar'},
-  {title:'Disillusioned (with serpentwithfeet)', artist:'Daniel Caesar, serpentwithfeet'},
-  {title:'Sign Of The Times', artist:'Daniel Caesar'},
-  {title:'Oakland Pt. 2', artist:'Karri'},
-  {title:'Middle of the Ocean', artist:'Drake'},
-  {title:'Evergreen (You Didn’t Deserve Me At All)', artist:'Omar Apollo'},
-  {title:'Blame U', artist:'Odeal'},
-  {title:'Flight\'s Booked', artist:'Drake'},
-  {title:'Lost', artist:'Frank Ocean'},
-  {title:'Pink + White', artist:'Frank Ocean'},
-  {title:'John Redcorn', artist:'SiR'},
-  {title:'Road Trips', artist:'Drake'},
-  {title:'This Ain\'t Love', artist:'GIVĒON'},
-  {title:'Ok Love You Bye', artist:'Olivia Dean'},
-  {title:'Cherry Wine', artist:'grentperez'},
-  {title:'Suzanne', artist:'Mark Ronson, RAYE'},
-  {title:'Ocho Rios', artist:'Daniel Caesar'},
-  {title:'Sorry Not Sorry', artist:'Lil Yachty, Veeze'},
-  {title:'LAST LAUGH', artist:'Don Toliver'},
-  {title:'CHIHIRO', artist:'Billie Eilish'},
-  {title:'Massive', artist:'Drake'},
-  {title:'8am in Charlotte', artist:'Drake'},
-  {title:'Ron Artest', artist:'Babyface Ray, 42 Dugg'},
-  {title:'Nevada', artist:'YoungBoy Never Broke Again'},
-  {title:'Homiesexual (with Ty Dolla \$ign)', artist:'Daniel Caesar, Ty Dolla \$ign'},
-  {title:'drive ME crazy!', artist:'Lil Yachty, Diana Gordon'},
-  {title:'Slide (feat. Frank Ocean & Migos)', artist:'Calvin Harris, Frank Ocean, Migos, Funk Wav'},
-  {title:'Lost Me', artist:'GIVĒON'},
-  {title:'This Will Do', artist:'GIVĒON'},
-  {title:'Two Hours from Atlanta', artist:'Lil Durk'},
-  {title:'Please Do Not Lean (feat. BADBADNOTGOOD)', artist:'Daniel Caesar, BADBADNOTGOOD'},
-  {title:'No Interviews', artist:'Lil Durk'},
-  {title:'By Your Side', artist:'Rod Wave'},
-  {title:'Get Along Better', artist:'Drake, Ty Dolla \$ign'},
-  {title:'Girls Want Girls (with Lil Baby)', artist:'Drake, Lil Baby'}
+  {title:'Lo Life', artist:'Venna, Odeal', id:'7sCpLpIQ11hhAPwEXgyAwM'},
+  {title:'Ordinary Feelings', artist:'Mack Keane', id:'79rC6hgv09gnIRQGEqDNit'},
+  {title:'maple brown', artist:'Jahson Paynter', id:'7qJRRPkLoOfjD3vYRrF4T4'},
+  {title:'Rock Your Body', artist:'Justin Timberlake', id:'1AWQoqb9bSvzTjaLralEkT'},
+  {title:'Tried Our Best', artist:'Drake', id:'3IHt4j5uAEl7iBu8Utn985'},
+  {title:'More Than A Woman - From &quot;Saturday Night Fever&quot; Soundtrack', artist:'Bee Gees', id:'49OMJ1prsRA7ZYgrAjz70c'},
+  {title:'CATCH A STRAY', artist:'Leon Thomas', id:'2bMcpeSIM5FNFCv1MK30sQ'},
+  {title:'MUTT (feat. Chris Brown) [CB REMIX]', artist:'Leon Thomas, Chris Brown', id:'3riRdhyMDfEQz5nKrxfbwv'},
+  {title:'Material Lover - from The Devil Wears Prada 2 Original Motion Picture', artist:'SIENNA SPIRO', id:'2aQcGu5C6qFcicPsaywTEK'},
+  {title:'Trip Freestyle', artist:'Jok’1 Le Chef', id:'5wMA4Y8J6Kx8J28qZRnOQy'},
+  {title:'Hell N Back (feat. Summer Walker)', artist:'Bakar, Summer Walker', id:'0jcw8cJf3TNMZN0BXlueML'},
+  {title:'It Ain\'t Over \'Til It\'s Over', artist:'Lenny Kravitz', id:'6VnpKLtfNH4Dk09YSGPSyR'},
+  {title:'Call On Me', artist:'Daniel Caesar', id:'7ctROU9Cit8yXawvYQgkIh'},
+  {title:'Choosin\' Texas', artist:'Ella Langley', id:'65DbTqJKhbwqYbZ1Okr0rc'},
+  {title:'The Reason', artist:'Hoobastank', id:'5B5eTk7DF8KVp1zpQoY1XY'},
+  {title:'I\'m Spent (feat. Loe Shimmy)', artist:'Drake, Loe Shimmy', id:'0SeTP12t4EwBJ6zsjHn9Wa'},
+  {title:'everything about her', artist:'Amie Blu', id:'5QozCy04yMHM1i1jvzj2Xg'},
+  {title:'trees for the woods', artist:'Amie Blu', id:'4FXQTLl5v1jlaLvrp16mFk'},
+  {title:'DIE TRYING', artist:'PARTYNEXTDOOR, Drake, Yebba', id:'0NUqi0ps17YpLUC3kgsZq0'},
+  {title:'Deep Blue Blues', artist:'R3ALSON릴슨', id:'2vZ8GIewkn2HJmbfBzkbBy'},
+  {title:'A Couple Minutes', artist:'Olivia Dean', id:'312z6PZ8wwREck8613PkJk'},
+  {title:'Reason To Stay', artist:'Olivia Dean', id:'56DxR1jHbX6xlGwZdUuN0v'},
+  {title:'Easy', artist:'Commodores', id:'1JQ6Xm1JrvHfvAqhl5pwaA'},
+  {title:'Life Feels So Good', artist:'napsea', id:'4ZnNhM9h7h7nEDybdmOQaR'},
+  {title:'Let\'s Go Back', artist:'Jungle', id:'3fvZo45Y28ly1QBo05pujJ'},
+  {title:'Make Them Pay', artist:'Drake', id:'57rkFdhoKjgkg16fsS4pgg'},
+  {title:'Nice To Each Other', artist:'Olivia Dean', id:'7qEiBWlztvDFrILdizFULx'},
+  {title:'Mad At Fire', artist:'Elmiene', id:'3PqLsRd5qvGGYllBy1IWII'},
+  {title:'Billie Bossa Nova', artist:'Billie Eilish', id:'2KnuaZYoGzDoHiBTNYOTXG'},
+  {title:'Who Knows', artist:'Daniel Caesar', id:'6DH13QYXK7lKkYHSU88N48'},
+  {title:'Superpowers', artist:'Daniel Caesar', id:'736PP5LTtREkDgktNmX3Gu'},
+  {title:'Always', artist:'Daniel Caesar', id:'2LlOeW5rVcvl3QcPNPcDus'},
+  {title:'Japanese Denim', artist:'Daniel Caesar', id:'7IVukH71OXfAu3KudrrizN'},
+  {title:'Disillusioned (with serpentwithfeet)', artist:'Daniel Caesar, serpentwithfeet', id:'4YsnwsPURRSvprBHBY1BCd'},
+  {title:'Sign Of The Times', artist:'Daniel Caesar', id:'4idq70ESkXPCPhCCnzBK1y'},
+  {title:'Oakland Pt. 2', artist:'Karri', id:'53ZSD18jfaGFqSnj4FL8Lq'},
+  {title:'Middle of the Ocean', artist:'Drake', id:'410TZrK18uRjtsTunG14cl'},
+  {title:'Evergreen (You Didn’t Deserve Me At All)', artist:'Omar Apollo', id:'2TktkzfozZifbQhXjT6I33'},
+  {title:'Blame U', artist:'Odeal', id:'6F5oCt8Y9I96qiJyXVHl83'},
+  {title:'Flight\'s Booked', artist:'Drake', id:'23Z3bbYcl1PdcPJemLa4zc'},
+  {title:'Lost', artist:'Frank Ocean', id:'3GZD6HmiNUhxXYf8Gch723'},
+  {title:'Pink + White', artist:'Frank Ocean', id:'3xKsf9qdS1CyvXSMEid6g8'},
+  {title:'John Redcorn', artist:'SiR', id:'3W2nknW1nTuuxUSyFCUCS8'},
+  {title:'Road Trips', artist:'Drake', id:'6p0Ai6wRjz9CmjqkhoKOwf'},
+  {title:'This Ain\'t Love', artist:'GIVĒON', id:'5Y7dUgG3vyx3541JagbWvv'},
+  {title:'Ok Love You Bye', artist:'Olivia Dean', id:'66YywMJbAgzQrGkFKjnSsK'},
+  {title:'Cherry Wine', artist:'grentperez', id:'5o5WaO9pzPhXSGIrTIYVce'},
+  {title:'Suzanne', artist:'Mark Ronson, RAYE', id:'3EL4YcUAmGkfTKXhS49Y3w'},
+  {title:'Ocho Rios', artist:'Daniel Caesar', id:'5MFSkVOqkIgE8NOfPQGm4N'},
+  {title:'Sorry Not Sorry', artist:'Lil Yachty, Veeze', id:'4lwfqyQXSDJ7kELpMErMih'},
+  {title:'LAST LAUGH', artist:'Don Toliver', id:'5c1BL2HbPdXc0t4JeznwyH'},
+  {title:'CHIHIRO', artist:'Billie Eilish', id:'7BRD7x5pt8Lqa1eGYC4dzj'},
+  {title:'Massive', artist:'Drake', id:'28JBD8p18xNuOfyV7Cotdn'},
+  {title:'8am in Charlotte', artist:'Drake', id:'0w3Mfe4PIVjuFjJbe3OlYv'},
+  {title:'Ron Artest', artist:'Babyface Ray, 42 Dugg', id:'4Wlz0HsHZlJy0NDK2h6jq6'},
+  {title:'Nevada', artist:'YoungBoy Never Broke Again', id:'2cEnKRR4dYBB2VA1mjlb1z'},
+  {title:'Homiesexual (with Ty Dolla \$ign)', artist:'Daniel Caesar, Ty Dolla \$ign', id:'4s3RSUwPDxCeWaLEiNOPq3'},
+  {title:'drive ME crazy!', artist:'Lil Yachty, Diana Gordon', id:'6luBKkFUt5wTwz7hpLhp12'},
+  {title:'Slide (feat. Frank Ocean & Migos)', artist:'Calvin Harris, Frank Ocean, Migos, Funk Wav', id:'7tr2za8SQg2CI8EDgrdtNl'},
+  {title:'Lost Me', artist:'GIVĒON', id:'6TSO4hwz9WGrEUY7ABGVim'},
+  {title:'This Will Do', artist:'GIVĒON', id:'7GypRHZMWmb81zN90Phu9y'},
+  {title:'Two Hours from Atlanta', artist:'Lil Durk', id:'5aIPEhFwd20ttmY6EhGdU6'},
+  {title:'Please Do Not Lean (feat. BADBADNOTGOOD)', artist:'Daniel Caesar, BADBADNOTGOOD', id:'5uXO1sjZ7VbNKexKaFRna3'},
+  {title:'No Interviews', artist:'Lil Durk', id:'1tXDziDamT0we73CTDsgsv'},
+  {title:'By Your Side', artist:'Rod Wave', id:'2AaJeBEq3WLcfFW1y8svDf'},
+  {title:'Get Along Better', artist:'Drake, Ty Dolla \$ign', id:'5ScbulRnixQ2XAdvrPMFjz'},
+  {title:'Girls Want Girls (with Lil Baby)', artist:'Drake, Lil Baby', id:'37Nqx7iavZpotJSDXZWbJ3'}
 ];
 const ART=['linear-gradient(135deg,#ff8a5b,#a8325e)','linear-gradient(135deg,#5ac8fa,#2c3e7a)','linear-gradient(135deg,#d9f2e6,#2f5e55)','linear-gradient(135deg,#ffd60a,#e8590c)','linear-gradient(135deg,#bf5af2,#3b2a8f)','linear-gradient(135deg,#e9e2d6,#6e5a48)'];
 const LINKS = [
@@ -691,7 +694,7 @@ const APPS = {
       </div>
     </div>
     <div class="tracks">${SONGS.map((x,i)=>`<div class="trk" data-trk="${i}"><div class="art" style="background:${ART[i%ART.length]}"></div><div class="t"><div class="nm">${x.title}</div><div class="ar">${x.artist}</div></div><span class="dots">···</span></div>`).join('')}</div>
-    <div class="mini" id="mini"><div class="art" id="miniArt"></div><div class="t"><div id="miniT"></div><div id="miniA"></div></div>
+    <div class="spx" id="spx"><div id="spEmbed"></div></div><div class="mini" id="mini" style="display:none!important"><div class="art" id="miniArt"></div><div class="t"><div id="miniT"></div><div id="miniA"></div></div>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" id="miniBtn" style="cursor:pointer"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><div class="bar"><i id="miniBar"></i></div></div>`},
   tv:{name:'TV', bg:'linear-gradient(180deg,#2b2b2e,#0d0d0f)', icon:ICON.tv, title:'Home', cls:'tvs', html:()=>`
     <div class="tvsec" style="margin-bottom:8px"><h2 style="font-size:26px">Favorites</h2></div>
@@ -838,6 +841,15 @@ document.getElementById('wxTemp').textContent=WX.temp+'°';
 document.getElementById('wxIcon').textContent=WXI[WX.icon]||'⛅️';
 document.getElementById('wxCond').textContent=WX.cond;
 document.getElementById('wxHL').textContent=`H:${WX.hi}° L:${WX.lo}°`;
+(async()=>{try{
+  const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.22&longitude=-74.74&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=1');
+  if(!r.ok)return;const d=await r.json();const c=d.current.weather_code;
+  const m=c===0?['sunny','Sunny']:c<=2?['partly','Partly Cloudy']:c===3?['cloudy','Cloudy']:c<=48?['fog','Foggy']:(c<=67||(c>=80&&c<=82))?['rain','Rain']:(c<=77||c===85||c===86)?['snow','Snow']:['storm','Storms'];
+  Object.assign(WX,{temp:Math.round(d.current.temperature_2m),hi:Math.round(d.daily.temperature_2m_max[0]),lo:Math.round(d.daily.temperature_2m_min[0]),icon:m[0],cond:m[1],updated:d.daily.time[0]});
+  document.getElementById('wxTemp').textContent=WX.temp+'°';document.getElementById('wxIcon').textContent=WXI[WX.icon]||'⛅️';
+  document.getElementById('wxCond').textContent=WX.cond;document.getElementById('wxHL').textContent=`H:${WX.hi}° L:${WX.lo}°`;
+}catch(e){}})();
+
 
 // state
 const S={dark:true,auto:false,wall:'w1'};
@@ -889,32 +901,39 @@ function wire(k){
   if(k==='spotify'){
     const hd=sheet.querySelector('header');hd.insertAdjacentHTML('beforeend','<span class="htitle">On Repeat</span>');
     sbody.onscroll=()=>hd.classList.toggle('solid',sbody.scrollTop>300);
-    APPS.spotify.cleanup=()=>{sbody.onscroll=null;hd.classList.remove('solid');const t=hd.querySelector('.htitle');if(t)t.remove()};
-    let idx=-1,playing=false,timer=null,prog=0;
-    const mini=document.getElementById('mini'),bar=document.getElementById('miniBar');
-    const pauseP='<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>',playP='<path d="M7 4v16l13-8z"/>';
-    const render=()=>{sbody.querySelectorAll('.trk').forEach((t,i)=>t.classList.toggle('on',i===idx));
-      document.getElementById('plIcon').innerHTML=playing?pauseP:playP;
-      document.getElementById('miniBtn').innerHTML=playing?pauseP:playP;
-      if(idx>=0){mini.classList.add('show');document.getElementById('miniArt').style.background=ART[idx%ART.length];
-        document.getElementById('miniT').textContent=SONGS[idx].title;document.getElementById('miniA').textContent=SONGS[idx].artist;}};
-    let shuf=false;const shBtn=document.getElementById('plShuf');
-    const nextIdx=()=>{if(!shuf)return (idx+1)%SONGS.length;let n;do{n=Math.floor(Math.random()*SONGS.length)}while(n===idx&&SONGS.length>1);return n};
+    let idx=-1,shuf=false;const shBtn=document.getElementById('plShuf'),spx=document.getElementById('spx');
+    document.querySelector('.tracks').style.paddingBottom='190px';
+    const pick=()=>{let n;do{n=Math.floor(Math.random()*SONGS.length)}while(n===idx&&SONGS.length>1);return n};
+    const mark=()=>sbody.querySelectorAll('.trk').forEach((t,i)=>t.classList.toggle('on',i===idx));
+    let ctrl=null,queue=[];
+    const ensure=cb=>{
+      if(ctrl){cb(ctrl);return}queue.push(cb);if(queue.length>1)return;
+      const go=api=>api.createController(document.getElementById('spEmbed'),{uri:'spotify:track:'+SONGS[0].id,width:'100%',height:152},c=>{ctrl=c;queue.forEach(f=>f(c));queue=[]});
+      if(window.SPAPI){go(window.SPAPI);return}
+      window.onSpotifyIframeApiReady=api=>{window.SPAPI=api;go(api)};
+      const sc=document.createElement('script');sc.src='https://open.spotify.com/embed/iframe-api/v1';sc.async=true;
+      sc.onerror=()=>{queue=[];document.getElementById('spEmbed').innerHTML=`<a href="${PLAYLIST_URL}" style="display:block;padding:20px;color:#fff;text-align:center">Open in Spotify ↗</a>`};
+      document.body.appendChild(sc);
+    };
+    const play=i=>{idx=i;mark();spx.classList.add('show');
+      if(!ctrl)document.getElementById('spEmbed').innerHTML='<div style="height:152px;display:flex;align-items:center;justify-content:center;color:#b3b3b3;font-size:14px">Loading player…</div>';
+      ensure(c=>{c.loadUri('spotify:track:'+SONGS[i].id);c.play()});
+      const el=sbody.querySelector(`[data-trk="${i}"]`);el&&el.scrollIntoView({block:'nearest'})};
     shBtn.onclick=()=>{shuf=!shuf;shBtn.style.color=shuf?'#1ed760':''};
-    const tickP=()=>{prog+=100/180;if(prog>=100){prog=0;idx=nextIdx();render();const el=sbody.querySelector(`[data-trk="${idx}"]`);el&&el.scrollIntoView({block:'nearest'})}bar.style.width=prog+'%'};
-    const play=i=>{if(i!==idx){idx=i;prog=0}playing=true;clearInterval(timer);timer=setInterval(tickP,1000);render()};
-    const pause=()=>{playing=false;clearInterval(timer);render()};
-    sbody.querySelectorAll('.trk').forEach(t=>t.onclick=()=>{const i=+t.dataset.trk;(i===idx&&playing)?pause():play(i)});
-    document.getElementById('plPlay').onclick=()=>playing?pause():play(idx<0?(shuf?Math.floor(Math.random()*SONGS.length):0):idx);
-    document.getElementById('miniBtn').onclick=()=>playing?pause():play(idx);
-    APPS.spotify.stop=()=>clearInterval(timer);
+    sbody.querySelectorAll('.trk').forEach(t=>t.onclick=()=>play(+t.dataset.trk));
+    document.getElementById('plPlay').onclick=()=>play(shuf?pick():(idx<0?0:idx));
+    APPS.spotify.stop=()=>{try{ctrl&&ctrl.destroy&&ctrl.destroy()}catch(e){};ctrl=null;queue=[]};
+    APPS.spotify.cleanup=()=>{sbody.onscroll=null;hd.classList.remove('solid');const t=hd.querySelector('.htitle');if(t)t.remove()};
   }
   if(k==='youtube'){
     const feed=document.getElementById('feed');
     const draw=t=>{feed.innerHTML=VIDEOS.map((v,i)=>[v,i]).filter(([v])=>t==='All'||v.tag===t).map(([v,i])=>`<a class="vcard" href="${v.url}">
-      <div class="thumb">${thumbSVG(v.tag,i)}<span class="dur">${v.duration||''}</span></div>
+      <div class="thumb" data-yt="${ytid(v.url)}">${thumbSVG(v.tag,i)}${ytid(v.url)?`<img src="https://i.ytimg.com/vi/${ytid(v.url)}/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:''}<span class="dur" style="z-index:1">${v.duration||''}</span></div>
       <div class="vmeta"><div class="vav" style="background:${VART[(i+2)%VART.length]}">${(v.channel||'?')[0]}</div>
       <div><div class="vt">${v.title}</div><div class="vs">${v.channel}${v.tag?' · '+v.tag:''}</div></div></div></a>`).join('')||'<div class="empty">No videos yet</div>'};
+    feed.onclick=e=>{const c=e.target.closest('.vcard');if(!c)return;const th=c.querySelector('[data-yt]');const id=th&&th.dataset.yt;if(!id)return;e.preventDefault();
+      if(th.querySelector('iframe'))return;
+      th.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>`};
     draw('All');
     sbody.querySelectorAll('[data-tag]').forEach(c=>c.onclick=()=>{sbody.querySelectorAll('.chip2').forEach(x=>x.classList.toggle('on',x===c));draw(c.dataset.tag)});
   }
