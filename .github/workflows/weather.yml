@@ -1,0 +1,18 @@
+name: Daily weather
+on:
+  schedule:
+    - cron: "17 10 * * *"   # ~5:17 AM New York time
+    - cron: "17 16 * * *"   # midday refresh
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/weather.py
+      - run: |
+          git config user.name "itsderekwang"
+          git config user.email "itsderekwang@users.noreply.github.com"
+          git diff --quiet || (git commit -am "Daily weather update" && git push)
