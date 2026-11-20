@@ -870,10 +870,17 @@ document.getElementById('dock').style.gridTemplateColumns=`repeat(${DOCK.length}
 
 // widgets — activity grid (rows = weeks, Mon→Sun)
 const ACOL={'0':'#2c2c2e','r':'#39d353','g':'#4c8dff','b':'linear-gradient(135deg,#39d353 50%,#4c8dff 50%)'};
-(()=>{const d=ACT.days.padEnd(49,'x');let runs=0,gym=0;
+const drawAct=a=>{const d=a.days.slice(0,49).padEnd(49,'x');let runs=0,gym=0;
   document.getElementById('grid').innerHTML=[...d].map(c=>{if(c==='r'||c==='b')runs++;if(c==='g'||c==='b')gym++;
     return c==='x'?'<span class="fut"></span>':`<span style="background:${ACOL[c]}"></span>`}).join('');
-  document.getElementById('nRun').textContent=runs;document.getElementById('nGym').textContent=gym;})();
+  document.getElementById('nRun').textContent=runs;document.getElementById('nGym').textContent=gym;};
+drawAct(ACT);
+// live activity feed (Google Sheet, updated daily by Claude)
+const ACT_SHEET='1Dzh1Ga9SVN8_jofdirLPI_1BP3KNoWTeYPs2xUtPTKE';
+(async()=>{try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${ACT_SHEET}/gviz/tq?tqx=out:csv&range=A2:B2&headers=0&t=${Date.now()}`);
+  if(!r.ok)return;const t=(await r.text()).trim().split('\n')[0].replace(/"/g,'').split(',');
+  const m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(t[0]);if(m)t[0]=`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(t[0])&&/^[brg0]+$/.test(t[1]||'')&&(t[0]>ACT.start||(t[0]===ACT.start&&t[1].length>=ACT.days.length))){ACT.start=t[0];ACT.days=t[1];drawAct(ACT)}}catch(e){}})();
 const WXI={sunny:'☀️',partly:'⛅️',cloudy:'☁️',rain:'🌧️',snow:'🌨️',storm:'⛈️',fog:'🌫️',wind:'💨'};
 document.getElementById('wxPlace').textContent=WX.place;
 document.getElementById('wxTemp').textContent=WX.temp+'°';
